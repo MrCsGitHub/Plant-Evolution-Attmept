@@ -1,32 +1,6 @@
 import random
 import math
-#the die, a class to hold all of the sides, sides should be defined by the sides class and contained in a list
-class die:
-    def __init__(self, sides, current_number):
-        self.sides = sides
-        self.current_number = current_number
-    def roll_die(self): #rolls the die and outputs the number it gets
-        pick_side = random.randint(0, 1000)/1000
-        threshold = 0
-        for i in range(len(self.sides)):
-            threshold = threshold + self.sides[i].weight
-            if pick_side < threshold:
-                self.current_number = self.sides[i].number
-                break
-        return self.current_number
-    def add_side(self, number, weight): #adds a side, takes in a number and a weight
-        self.sides.append(side(str(number), weight))
-    def remove_side(self, number): #removes a side, only needs the number or name of the side to remove it
-        for i in range(len(self.sides)):
-            if self.sides[i].number == number:
-                self.sides.delete(self.sides[i])
-#defines each side, which takes in a number and a weight, all weights together should always equal 1 or else it won't work properly   
-class side:
-    def __init__(self, number, weight):
-        self.number = number
-        self.weight = weight
-#---------------------------#
-#the above is a non-importable package, you can ignore it
+
 class soil:
     def __init__(self, water_level, location, root_space):
         self.water_level = water_level
@@ -36,17 +10,21 @@ class soil:
 ground = []
 for i in range(10):
     ground.append(soil(0.5, i, 1))
-weather = die([side("sunny", 0.7), side("cloudy", 0.1), side("rainy", 0.2)], "sunny")
-
+wind = 0
+cloud_cover = 0
 for i in range(1000):
-    weather.roll_die() 
-    if weather.current_number == "sunny":
-        for i in range(len(ground)):
-            ground[i].water_level += -0.1
-    if weather.current_number == "rainy":
-        for i in range(len(ground)):
-            rainfall = random.randint(1, 10)/10
-            ground[i].water_level += rainfall
-            if ground[i].water_level > 1:
-                ground[i].water_level = 1
+    wind = wind + random.randint(-1, 1)/10
+    if abs(wind) > 1:
+        if wind < 0:
+            wind = -1
+        else:
+            wind = 1
+    cloud_cover = cloud_cover + random.randint(-1*abs(wind), 1*abs(wind))
+    if abs(cloud_cover) > 1:
+        if cloud_cover < 0:
+            cloud_cover = -1
+        else:
+            cloud_cover = 1
+    soil.water_level += (-0.1)*(1-cloud_cover)
+    
     
