@@ -6,13 +6,9 @@ class soil:
         self.water_level = water_level
         self.location = location
         self.root_space = root_space
-
-ground = []
-for i in range(10):
-    ground.append(soil(0.5, i, 1))
-wind = 0
-cloud_cover = 0
-for i in range(1000):
+def run_weather():
+    global wind
+    global cloud_cover
     wind = wind + random.randint(-1, 1)/10
     if abs(wind) > 1:
         if wind < 0:
@@ -25,6 +21,18 @@ for i in range(1000):
             cloud_cover = -1
         else:
             cloud_cover = 1
-    soil.water_level += (-0.1)*(1-cloud_cover)
-    
+    for i in range(len(ground)):
+        ground[i].water_level += (-0.1)*(1-cloud_cover)
+    if cloud_cover > .95:
+        for i in range(len(ground)):
+        ground[i].water_level += cloud_cover
+ground = []
+for i in range(10):
+    ground.append(soil(0.5, i, 1))
+wind = 0
+cloud_cover = 0
+
+for i in range(1000):
+    run_weather()
+print(ground[0].water_level)
     
