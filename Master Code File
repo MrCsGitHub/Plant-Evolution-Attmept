@@ -9,13 +9,13 @@ class soil:
 def run_weather():
     global wind
     global cloud_cover
-    wind = wind + random.randint(-1, 1)/10
+    wind = (wind*10 + random.randint(-1, 1))/10
     if abs(wind) > 1:
         if wind < 0:
             wind = -1
         else:
             wind = 1
-    cloud_cover = cloud_cover + random.randint(-1*abs(wind), 1*abs(wind))
+    cloud_cover = (cloud_cover*10 + random.randint(-10*abs(wind), 10*abs(wind)))/10
     if abs(cloud_cover) > 1:
         if cloud_cover < 0:
             cloud_cover = -1
